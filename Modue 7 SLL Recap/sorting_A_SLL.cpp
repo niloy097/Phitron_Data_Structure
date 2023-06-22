@@ -23,6 +23,7 @@ void inserAtTailOptmly(Node*& head, Node*& tail, int val) //O(1)
     tail->next = newNode;
     tail = newNode;
 }
+
 void printLinkedList(Node* head)
 {
     Node* tmp = head;
