@@ -1,5 +1,4 @@
 /*
-
 Constructors                Details                      Time Complexity
 -------------------------------------------------------------------------                 
 1. list<type>myList;        Construct a list with              O(1)
