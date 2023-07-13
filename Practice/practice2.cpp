@@ -1,17 +1,17 @@
-//Level Order Traversal Of a Binary Tree
+//Binary Tree Input
 #include<bits/stdc++.h>
 using namespace std;
 class Node
 {
-    public:
+    public: 
         int val;
         Node* left;
         Node* right;
     Node(int val)
     {
         this->val = val;
-        this->left = NULL;
         this->right = NULL;
+        this->left = NULL;
     }
 };
 /*
@@ -34,6 +34,41 @@ class Node
 
 
 */
+Node* inputBinTree()
+{
+    int val;
+    Node* root;
+    cin >> val;
+    if(val == -1) root = NULL;
+    else root = new Node(val);
+
+    queue<Node*> qu;
+    if(root) qu.push(root);
+    
+    while(!qu.empty())
+    {
+        Node* parent = qu.front();
+        qu.pop();
+
+        int l, r;
+        cin >> l >> r;
+        Node* myLeft;
+        Node* myRight;
+        if(l == -1) myLeft = NULL;
+        else myLeft = new Node(l);
+        if(r == -1) myRight = NULL;
+        else myRight = new Node(r);
+
+        parent->left = myLeft;
+        parent->right = myRight;
+
+        if(parent->left) qu.push(parent->left);
+        if(parent->right) qu.push(parent->right);
+
+    }
+
+    return root;
+}
 void printLevelOrder(Node* root)
 {
     if(root == NULL) return;
@@ -56,35 +91,9 @@ void printLevelOrder(Node* root)
 int main()
 {
 
-    Node* root = new Node(7);
-    Node* a = new Node(3);
-    Node* b = new Node(6);
-    Node* c = new Node(4);
-    Node* d = new Node(0);
-    Node* e = new Node(8);
-    Node* f = new Node(6);
-    Node* g = new Node(7);
-    Node* h = new Node(6);
-    Node* i = new Node(2);
-    Node* j = new Node(5);
-
-    //Connection-->
-    root->left = a;
-    root->right = b;
-
-    a->left = c;
-    a->right = d;
-
-    b->right = e;
-
-    c->right = f;
-
-    d->left = g;
-    d->right = h;
-
-    e->left = i;
-    e->right = j;
-    
+    Node* root = inputBinTree();
     printLevelOrder(root);
+    
+
     return 0;
 }
