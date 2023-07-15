@@ -1,0 +1,74 @@
+// Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
+using namespace std;
+class Node{
+    public:
+        int val;
+        Node* left;
+        Node* right;
+    Node(int val)
+    {
+        this->val = val;
+        this->left = NULL;
+        this->right = NULL;
+    }
+};
+Node* inputTree()
+{
+    int val;
+    Node* root;
+    queue<Node*> q;
+    cin >> val;
+    if(val == -1) root = NULL;
+    else root = new Node(val);
+    if(root)q.push(root);
+    while(!q.empty())
+    {
+        Node* parent = q.front();
+        q.pop();
+        int l, r;
+        Node* mL;
+        Node* mR;
+        cin >> l >> r;
+        if(l == -1) mL = NULL;
+        else mL = new Node(l);
+        if(r == -1) mR = NULL;
+        else mR = new Node(r);
+        
+        
+        parent->left = mL;
+        parent->right = mR;
+            
+        if(parent->left) q.push(parent->left);
+        if(parent->right) q.push(parent->right);
+    }
+    return root;
+}
+void printLvl(Node* root, vector<pair<Node*, int>>& v)
+{
+    if(root == NULL) return;
+    queue<pair<Node*, int>> qu;
+    qu.push({root, 0});
+    while(!qu.empty())
+    {
+        pair<Node*,int> pr = qu.front();
+        qu.pop();
+        Node* node = pr.first;
+        int lvl = pr.second;
+        v.push_back({node, lvl});
+        if(node->left) qu.push({node->left, lvl+1});
+        if(node->right) qu.push({node->right, lvl+1});
+    }
+    
+}
+int main() {
+    vector<pair<Node*, int>> v;
+    Node* root = inputTree();
+    printLvl(root, v);
+    for(int i = 0; i < v.size(); i++)
+    {   cout << (v[i].first)->val << " - ";
+        cout << v[i].second << endl;
+    }
+
+    return 0;
+}
