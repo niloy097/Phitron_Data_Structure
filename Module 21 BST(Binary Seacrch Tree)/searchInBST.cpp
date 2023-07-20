@@ -96,12 +96,12 @@ bool search(BinNode* root, int x) //
         return search(root->right, x);
     }
 }
-int main()
+int main() 
 {
 
     BinNode* root = inputTree();
     // printLevelOrder(root);
-    if(search(root, 1)) cout << "YES" << endl;
+    if(search(root, 0)) cout << "YES" << endl;
     else cout << "NO" << endl;
 
     return 0;
