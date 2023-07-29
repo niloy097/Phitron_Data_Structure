@@ -1,49 +1,55 @@
 #include<bits/stdc++.h>
 using namespace std;
-class BinNode
+class Node
 {
     public:
         int val;
-        BinNode* left;
-        BinNode* right;
-    BinNode(int val)
+        Node* left;
+        Node* right;
+    Node(int val)
     {
         this->val = val;
         this->left = NULL;
         this->right = NULL;
-    }    
+    }
 
 };
-
-BinNode* inputTree()
+int maxHeightOfTree(Node* root)
+{
+    if(root == NULL) return -1;
+    int l = maxHeightOfTree(root->left);
+    int r = maxHeightOfTree(root->right);
+    return max(l, r) + 1;
+}
+Node* inputTree()
 {
     int val;
     cin >> val;
-    BinNode* root;
+    Node* root;
     if(val == -1) root = NULL;
-    else root = new BinNode(val);
-    queue<BinNode*> qu;
+    else root = new Node(val);
+    queue<Node*> qu;
     if(root) qu.push(root);
     while(!qu.empty())
     {
         //1. pick from queue
-        BinNode* parent = qu.front();
+        Node* parent = qu.front();
         qu.pop();
 
         //2. Required Work
         int l, r;
         cin >> l >> r;
-        BinNode* myLeft;
-        BinNode* myRight;
+        Node* myLeft;
+        Node* myRight;
         if(l == -1)
             myLeft = NULL;
         else
-            myLeft = new BinNode(l);
+            myLeft = new Node(l);
 
         if(r == -1)
             myRight = NULL;
         else
-            myRight = new BinNode(r);
+            myRight = new Node(r);
 
         //Connection
         parent->left = myLeft;
@@ -58,21 +64,10 @@ BinNode* inputTree()
 
     return root;
 }
-int leftSum(BinNode* root)
-{
-    if(root == NULL) return 0;
-    int sum = 0;
-    if(root->left)
-    {
-        sum = sum + root->left->val + leftSum(root->left);
-    }
-    sum = sum + leftSum(root->right);
-    return sum;
-}
 int main()
 {
-    BinNode* root =  inputTree();
-    cout << leftSum(root) << endl;
-
+    Node* root = inputTree();
+    cout << maxHeightOfTree(root) << endl;
+    
     return 0;
 }

@@ -1,92 +1,97 @@
 #include<bits/stdc++.h>
 using namespace std;
-class BNode{
+class Node
+{
     public:
         int val;
-        BNode* left;
-        BNode* right;
-    BNode(int val)
+        Node* left;
+        Node* right;
+    Node(int val)
     {
-        this -> val = val;
-        this -> left = NULL;
-        this -> right = NULL;
+        this->val = val;
+        this->left = NULL;
+        this->right = NULL;
     }
+
 };
-/*
-        
-        My Custom Bin tree
-        
-                7
-            /       \
-          10        11
-        /   \         \
-       6     4         0
-       \    /        /   \
-       9   12       5    78
+Node* inputTree()
+{
+    int val;
+    cin >> val;
+    Node* root;
+    queue<Node*> qu;
+    if(val == -1) root = NULL;
+    else root = new Node(val);
+    if(root) qu.push(root);
+    while(!qu.empty())
+    {
+        Node* parent = qu.front();
+        qu.pop();
+        int l, r;
+        Node* myLeft;
+        Node* myRight;
+        cin >> l >> r;
+        if(l == -1) myLeft = NULL;
+        else myLeft = new Node(l);
+        if(r == -1) myRight = NULL;
+        else myRight = new Node(r);
 
-    Pre- 7 10 6 9 4 12 11 0 5 78
-    In = 6 9 10 12 4 7 11 5 0 78
-    Post = 9 6 12 4 10 5 78 0 11 7
+        parent->left  = myLeft;
+        parent->right = myRight;
 
+        if(parent->left) qu.push(parent->left);
+        if(parent->right) qu.push(parent->right);
 
-*/
+    }
+    return root;
+}
+void printLevelOrder(Node* root)
+{
+    if(root ==  NULL) return;
+    queue<Node*> q;
+    q.push(root);
+    while(!q.empty())
+    {
+        Node* parent = q.front();
+        q.pop();
 
-void printPreOrder(BNode* root)
+        cout << parent->val <<  " ";
+
+        if(parent->left) q.push(parent->left);
+        if(parent->right) q.push(parent->right);
+    }
+}
+void printPreOrder(Node* root)
 {
     if(root == NULL) return;
     cout << root->val << " ";
     printPreOrder(root->left);
-    printPreOrder(root->right);
+    printLevelOrder(root->right);
 }
-void printPostOrder(BNode* root)
-{
-    if(root == NULL) return;
-    printPostOrder(root->left);
-    printPostOrder(root->right);
-    cout << root->val << " ";
-}
-void printInOrder(BNode* root)
+void printInOrder(Node* root)
 {
     if(root == NULL) return;
     printInOrder(root->left);
     cout << root->val << " ";
     printInOrder(root->right);
 }
+void printPostOrder(Node* root)
+{
+    if(root == NULL) return;
+    printPostOrder(root->left);
+    printPostOrder(root->right);
+    cout << root->val << " ";
+}
 int main()
 {
-    BNode* root = new BNode(7);
-    BNode* a = new BNode(10);
-    BNode* b = new BNode(11);
-    BNode* c = new BNode(6);
-    BNode* d = new BNode(4);
-
-    BNode* e = new BNode(0);
-    BNode* f = new BNode(9);
-    BNode* g = new BNode(12);
-    BNode* h = new BNode(5);
-    BNode* i = new BNode(78);
-
-    //Connection-->
-    root->left = a;
-    root->right = b;
-
-    a->left = c;
-    a->right = d;
-
-    c->right = f;
-
-    d->left = g;
-
-    b->right = e;
-
-    e->left = h;
-    e->right = i;
-
-    printPreOrder(root);
+    Node* root = inputTree();
+    cout << "Level-Order: "; printLevelOrder(root);
     cout << endl;
-    printInOrder(root);
+    cout << "Pre-Order: "; printPreOrder(root);
     cout << endl;
-    printPostOrder(root);
+    cout << "In-Order: "; printInOrder(root);
+    cout << endl;
+    cout << "Post-Order: "; printPostOrder(root);
 
     return 0;
 }
